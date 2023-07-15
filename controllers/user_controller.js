@@ -7,11 +7,24 @@ const registeruser = ((req, res, next) => {
     console.log(req.body)
     User.findOne({email: req.body.email})
         .then(user => {
-            if (user != null) {
+            if (user !== null) {
+                res.status(400).json ({
+                    success:false,
+                    message: 'User already exists'
+                })
                 let err = new Error(`User ${req.body.email} already exists.`)
-                res.status(400)
                 return next(err)
             }
+            else if (req.body.phoneNumber.length != 10) {
+                let err = new Error(`Phone number ${req.body.phoneNumber} is not valid.`)
+                res.status(400).json ({
+                    success:false,
+                    message: 'Phone number is not valid'
+                })
+                return next(err)
+            }
+            else {
+            
             bcrypt.hash(req.body.password, 10, (err, hash) => {
                 if (err) return next(err)
                 user = new User({
@@ -22,14 +35,18 @@ const registeruser = ((req, res, next) => {
                     password: hash
                 })
                 
-                user.save().then(user => {
+                user.save()
+                    .then((user) => {
                     res.status(201).json({
-                        status: 'User registered successfully',
+                        message: 'User registered successfully',
                         userId: user._id,
+                    });
                     })
-                }).catch(next)
+                    .catch(next);
+                });
+            }
             })
-        }).catch(next)
+.catch(next);
     })
     
 

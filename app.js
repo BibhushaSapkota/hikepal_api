@@ -48,9 +48,9 @@ app.use('/jhikes',jhike_routes)
 // when there is value in err parameter then it gets executed
 
 app.use((err, req, res, next) => {
-    console.log(err.stack)  
+ 
     if (res.statusCode == 200) res.status(500)
-    res.json({ "err": err.message })
+    res.json({ "err": err.message , message:err.message})
 })
 
 module.exports = app

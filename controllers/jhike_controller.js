@@ -97,6 +97,8 @@ const clearJhike=(req,res,next)=>{
 }
 
 const deleteJhikeItem= async function(req,res,next){
+  console.log(req.params.id);
+  console.log(req.user);
   try {
     const HikeId = req.params.id;
     const userId = req.user.user._id;

@@ -12,7 +12,7 @@ router.route('/user/:id')
         .delete(jhikeController.clearJhike)
 
 router.route('/:id')
-        .delete(jhikeController.deleteJhikeItem)
+        .delete(auth.verifyUser,jhikeController.deleteJhikeItem)
 
 router.route('/hike/:id')
         .get(jhikeController.getJhikeByHike)

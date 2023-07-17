@@ -2,10 +2,10 @@ const nodemailer = require('nodemailer');
 
 // Create a transporter for sending emails
 const transporter = nodemailer.createTransport({
-  service: 'Google', // e.g., Gmail, Outlook, etc.
+  service: 'Gmail', // e.g., Gmail, Outlook, etc.
   auth: {
-    user: 'admin',
-    pass: 'password',
+    user: 'bibhushasapkota5@gmail.com',
+    pass: 'hrhqvvfbjlczlpaa',
   },
 });
 

@@ -121,10 +121,34 @@ const changePassword = (req, res, next) => {
     }
 }
 
+const forgotPassword = (req, res, next) => {
+    User.findOne({ email: req.body.email })
+        .then((user) => {
+            if (user == null) {
+                let err = new Error(`User ${req.body.email} has not been registered yet`)
+                res.status(404)
+                return next(err)
+            }
+            bcrypt.hash(req.body.password, 10, (err, hash) => {
+                if (err) return next(err)
+                user.password = hash
+                user.save()
+                    .then((user) => {
+                        res.status(200).json({
+                            success:true,
+                            message:'Password updated successfully',
+                            data:user
+                        })
+                    }).catch(next)
+            })
+        }).catch(next)
+}
+
 module.exports = {
     registeruser,
     loginuser,
     getUserByID,
     updateUserByID,
-    changePassword
+    changePassword,
+    forgotPassword
 }

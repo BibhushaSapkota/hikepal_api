@@ -18,5 +18,8 @@ router.route('/:id')
 router.route('/password/:id')
     .put(auth.verifyUser,userController.changePassword)
 
+router.route('/forgotpassword')
+    .put(userController.forgotPassword)
+
 
 module.exports = router

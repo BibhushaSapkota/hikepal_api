@@ -3,6 +3,7 @@ const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')//
 const path = require('path')
+const mailService = require('./controllers/mailService');
 const user_routes = require('./routes/user_routes')
 const hike_routes = require('./routes/hike_routes')
 const jhike_routes = require('./routes/jhike_routes')
@@ -18,6 +19,10 @@ mongoose.connect('mongodb://127.0.0.1:27017/hikepal')
         })
     }).catch((err) => console.log(err))
 
+
+
+    
+
 // application level middleware
 app.use((req, res, next) => {
     console.log(`${req.method} ${req.path}`)
@@ -28,6 +33,14 @@ app.use(
     "/images",
     express.static(path.join(__dirname, "/images"))
 );
+app.post('/api/send-email', (req, res) => {
+  const { email, code } = req.body;
+
+  // Send the verification code
+  mailService.sendVerificationCode(email, code);
+
+  res.sendStatus(200);
+}); 
 
 // starts with(^) / or ends with($) / or is index or index.html then 
 app.get('^/$|index(.html)?', (req, res) => {
